@@ -11,3 +11,41 @@ The overall design would be as follows:
 
 Note that this implementation is not useful as it is because vault already
 implements a server process with an API.
+
+# Execution
+
+To give a try to this example, follow these steps:
+
+- Create a virtual environment
+    mkvirtualenv credentials-store-poc
+
+- Install dependencies
+    pip install -r requirements.txt
+
+- Launch services
+    - Credentials store:
+
+            ./vault.sh
+
+    - Message queue:
+
+            ./rabbitmq.sh
+
+    - Celery worker:
+
+            ./tasks.py
+
+    - API server:
+
+            ./api.py
+
+- Store credentials
+
+        # 204 NOT CONTENT returned
+        http put localhost:5000/credentials/tenant hello=world
+
+
+- Retrieve credentials
+
+        # 200 OK returned with application/json data
+        http put localhost:5000/credentials/tenant
